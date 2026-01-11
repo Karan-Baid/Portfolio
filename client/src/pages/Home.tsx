@@ -1,0 +1,294 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { TypeAnimation } from "react-type-animation";
+import { ArrowRight, Download, Send, Sparkles } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import ProjectCard from "@/components/ProjectCard";
+import SkillBadge from "@/components/SkillBadge";
+import { useProjects, useSkills, useContact } from "@/hooks/use-portfolio";
+import { useToast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { insertMessageSchema, type InsertMessage } from "@shared/schema";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+export default function Home() {
+  const { data: projects, isLoading: projectsLoading } = useProjects();
+  const { data: skills, isLoading: skillsLoading } = useSkills();
+  const { mutate: sendMessage, isPending: isSending } = useContact();
+  const { toast } = useToast();
+
+  const form = useForm<InsertMessage>({
+    resolver: zodResolver(insertMessageSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = (data: InsertMessage) => {
+    sendMessage(data, {
+      onSuccess: () => {
+        toast({
+          title: "Message sent!",
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        form.reset();
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
+    });
+  };
+
+  // Group skills by category
+  const skillsByCategory = skills?.reduce((acc, skill) => {
+    const category = skill.category;
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(skill);
+    return acc;
+  }, {} as Record<string, typeof skills>);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-4 pt-16 overflow-hidden">
+        {/* Abstract background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl opacity-30 animate-pulse delay-700" />
+        </div>
+
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-mono text-primary mb-6">
+              <Sparkles className="w-4 h-4" />
+              <span>Available for hire</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+              Building the future with{" "}
+              <span className="text-gradient block mt-2">Generative AI</span>
+            </h1>
+
+            <div className="text-xl md:text-2xl text-gray-400 mb-8 font-mono h-[60px] md:h-auto">
+              <TypeAnimation
+                sequence={[
+                  "I engineer LLM applications.",
+                  1000,
+                  "I build AI-powered tools.",
+                  1000,
+                  "I create seamless user experiences.",
+                  1000,
+                ]}
+                wrapper="span"
+                speed={50}
+                repeat={Infinity}
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
+              <a href="#projects">
+                <Button size="lg" className="rounded-full px-8 text-base h-12 bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25">
+                  View Work <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </a>
+              <a href="/resume.pdf" target="_blank">
+                <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-white/20 hover:bg-white/5">
+                  Download CV <Download className="ml-2 w-4 h-4" />
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-24 px-4 bg-black/20">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Arsenal</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              A curated stack of technologies I use to bring ideas to life.
+            </p>
+          </motion.div>
+
+          {skillsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+               {[...Array(4)].map((_, i) => (
+                 <div key={i} className="h-32 rounded-lg bg-white/5 animate-pulse" />
+               ))}
+            </div>
+          ) : (
+            <div className="grid gap-12">
+              {Object.entries(skillsByCategory || {}).map(([category, items], catIndex) => (
+                <div key={category}>
+                  <h3 className="text-xl font-mono text-primary mb-6 flex items-center gap-3">
+                    <span className="w-8 h-[1px] bg-primary/50"></span>
+                    {category}
+                  </h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                    {items.map((skill, index) => (
+                      <SkillBadge
+                        key={skill.id}
+                        name={skill.name}
+                        proficiency={skill.proficiency}
+                        delay={index * 0.05}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto">
+              Showcase of my latest work in AI engineering and full-stack development.
+            </p>
+          </motion.div>
+
+          {projectsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="h-96 rounded-2xl bg-white/5 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects?.map((project, index) => (
+                <ProjectCard key={project.id} project={project} index={index} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 px-4 bg-gradient-to-b from-transparent to-primary/5">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="glass-panel p-8 md:p-12 rounded-3xl"
+          >
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
+              <p className="text-gray-400">
+                Have a project in mind or want to discuss AI? Send me a message.
+              </p>
+            </div>
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="John Doe" 
+                            {...field} 
+                            className="bg-white/5 border-white/10 focus:border-primary h-12"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="john@example.com" 
+                            {...field} 
+                            className="bg-white/5 border-white/10 focus:border-primary h-12"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Tell me about your project..." 
+                          className="min-h-[150px] bg-white/5 border-white/10 focus:border-primary resize-none"
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25"
+                  disabled={isSending}
+                >
+                  {isSending ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      Send Message <Send className="ml-2 w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </motion.div>
+        </div>
+      </section>
+
+      <footer className="py-8 text-center text-gray-500 text-sm border-t border-white/5">
+        <p>© {new Date().getFullYear()} Generative AI Engineer. Built with React & Drizzle.</p>
+      </footer>
+    </div>
+  );
+}
