@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
-import { ArrowRight, Download, Send, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Send, Sparkles, Briefcase, Award, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ProjectCard from "@/components/ProjectCard";
 import SkillBadge from "@/components/SkillBadge";
-import { useProjects, useSkills, useContact } from "@/hooks/use-portfolio";
+import { useProjects, useSkills, useContact, useExperience, useCertifications } from "@/hooks/use-portfolio";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +18,8 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   const { data: projects, isLoading: projectsLoading } = useProjects();
   const { data: skills, isLoading: skillsLoading } = useSkills();
+  const { data: experience, isLoading: experienceLoading } = useExperience();
+  const { data: certifications, isLoading: certsLoading } = useCertifications();
   const { mutate: sendMessage, isPending: isSending } = useContact();
   const { toast } = useToast();
 
@@ -49,7 +51,6 @@ export default function Home() {
     });
   };
 
-  // Group skills by category
   const skillsByCategory = skills?.reduce((acc, skill) => {
     const category = skill.category;
     if (!acc[category]) acc[category] = [];
@@ -63,7 +64,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home" className="relative min-h-screen flex items-center justify-center px-4 pt-16 overflow-hidden">
-        {/* Abstract background elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-30 animate-pulse" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl opacity-30 animate-pulse delay-700" />
@@ -77,22 +77,22 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-sm font-mono text-primary mb-6">
               <Sparkles className="w-4 h-4" />
-              <span>Available for hire</span>
+              <span>Available for collaboration</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-              Building the future with{" "}
-              <span className="text-gradient block mt-2">Generative AI</span>
+              Karan Baid
+              <span className="text-gradient block mt-2">Generative AI Engineer</span>
             </h1>
 
             <div className="text-xl md:text-2xl text-gray-400 mb-8 font-mono h-[60px] md:h-auto">
               <TypeAnimation
                 sequence={[
-                  "I engineer LLM applications.",
+                  "I build Agentic AI Workflows.",
                   1000,
-                  "I build AI-powered tools.",
+                  "I fine-tune LLMs for production.",
                   1000,
-                  "I create seamless user experiences.",
+                  "I engineer advanced RAG systems.",
                   1000,
                 ]}
                 wrapper="span"
@@ -107,13 +107,58 @@ export default function Home() {
                   View Work <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </a>
-              <a href="/resume.pdf" target="_blank">
-                <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-white/20 hover:bg-white/5">
-                  Download CV <Download className="ml-2 w-4 h-4" />
-                </Button>
-              </a>
+              <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-white/20 hover:bg-white/5" onClick={() => window.open('https://linkedin.com/in/karanbaid', '_blank')}>
+                LinkedIn <ExternalLink className="ml-2 w-4 h-4" />
+              </Button>
             </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="py-24 px-4">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Professional Experience</h2>
+            <div className="h-1 w-20 bg-primary mx-auto rounded-full" />
+          </motion.div>
+
+          <div className="space-y-12">
+            {experience?.map((exp, index) => (
+              <motion.div
+                key={exp.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="glass-panel p-8 rounded-2xl relative border-l-4 border-l-primary"
+              >
+                <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
+                    <p className="text-primary font-mono">{exp.company}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-gray-400 font-mono text-sm">{exp.period}</p>
+                    <p className="text-gray-500 text-xs">{exp.location}</p>
+                  </div>
+                </div>
+                <ul className="space-y-3">
+                  {exp.description.map((item, i) => (
+                    <li key={i} className="text-gray-300 flex items-start gap-3">
+                      <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -128,7 +173,7 @@ export default function Home() {
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Technical Arsenal</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              A curated stack of technologies I use to bring ideas to life.
+              B.Tech in Computer Science student at VIT, specializing in GenAI and MLOps.
             </p>
           </motion.div>
 
@@ -140,7 +185,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="grid gap-12">
-              {Object.entries(skillsByCategory || {}).map(([category, items], catIndex) => (
+              {Object.entries(skillsByCategory || {}).map(([category, items]) => (
                 <div key={category}>
                   <h3 className="text-xl font-mono text-primary mb-6 flex items-center gap-3">
                     <span className="w-8 h-[1px] bg-primary/50"></span>
@@ -172,25 +217,49 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">GenAI Projects</h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Showcase of my latest work in AI engineering and full-stack development.
+              Production-ready AI systems and agentic workflows.
             </p>
           </motion.div>
 
-          {projectsLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="h-96 rounded-2xl bg-white/5 animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects?.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index} />
-              ))}
-            </div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects?.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section */}
+      <section className="py-24 px-4 bg-black/20">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center gap-4 mb-12">
+            <Award className="w-8 h-8 text-primary" />
+            <h2 className="text-3xl font-bold">Certifications</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {certifications?.map((cert, index) => (
+              <motion.div
+                key={cert.id}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="glass-panel p-6 rounded-xl flex items-center justify-between group"
+              >
+                <div>
+                  <h4 className="font-bold text-lg group-hover:text-primary transition-colors">{cert.name}</h4>
+                  <p className="text-gray-400 text-sm">{cert.issuer}</p>
+                </div>
+                {cert.verificationUrl && (
+                  <Button variant="ghost" size="icon" onClick={() => window.open(cert.verificationUrl, '_blank')}>
+                    <ExternalLink className="w-4 h-4" />
+                  </Button>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -205,8 +274,8 @@ export default function Home() {
           >
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold mb-4">Let's Connect</h2>
-              <p className="text-gray-400">
-                Have a project in mind or want to discuss AI? Send me a message.
+              <p className="text-gray-400 font-mono">
+                karanbaid1964@gmail.com | Jaipur, Rajasthan
               </p>
             </div>
 
@@ -221,7 +290,7 @@ export default function Home() {
                         <FormLabel>Name</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="John Doe" 
+                            placeholder="Karan Baid" 
                             {...field} 
                             className="bg-white/5 border-white/10 focus:border-primary h-12"
                           />
@@ -238,7 +307,7 @@ export default function Home() {
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input 
-                            placeholder="john@example.com" 
+                            placeholder="karan@example.com" 
                             {...field} 
                             className="bg-white/5 border-white/10 focus:border-primary h-12"
                           />
@@ -257,7 +326,7 @@ export default function Home() {
                       <FormLabel>Message</FormLabel>
                       <FormControl>
                         <Textarea 
-                          placeholder="Tell me about your project..." 
+                          placeholder="Interested in agentic workflows or fine-tuning..." 
                           className="min-h-[150px] bg-white/5 border-white/10 focus:border-primary resize-none"
                           {...field} 
                         />
@@ -272,13 +341,7 @@ export default function Home() {
                   className="w-full h-12 text-base font-semibold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/25"
                   disabled={isSending}
                 >
-                  {isSending ? (
-                    "Sending..."
-                  ) : (
-                    <>
-                      Send Message <Send className="ml-2 w-4 h-4" />
-                    </>
-                  )}
+                  {isSending ? "Transmitting..." : "Send Transmission"}
                 </Button>
               </form>
             </Form>
@@ -287,7 +350,7 @@ export default function Home() {
       </section>
 
       <footer className="py-8 text-center text-gray-500 text-sm border-t border-white/5">
-        <p>© {new Date().getFullYear()} Generative AI Engineer. Built with React & Drizzle.</p>
+        <p>© {new Date().getFullYear()} Karan Baid. Built with high-tech stack.</p>
       </footer>
     </div>
   );

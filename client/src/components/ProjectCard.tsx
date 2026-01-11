@@ -40,6 +40,17 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
           {project.description}
         </p>
 
+        {project.highlights && project.highlights.length > 0 && (
+          <ul className="mb-4 space-y-1">
+            {project.highlights.slice(0, 2).map((highlight, i) => (
+              <li key={i} className="text-xs text-gray-500 flex items-start gap-2">
+                <span className="text-primary mt-1 shrink-0">▹</span>
+                <span className="line-clamp-1">{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
         <div className="flex flex-wrap gap-2 mb-6">
           {project.techStack.map((tech) => (
             <span

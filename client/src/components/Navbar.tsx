@@ -14,6 +14,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "#home", icon: <Terminal className="w-4 h-4" /> },
+    { name: "Experience", href: "#experience", icon: <Brain className="w-4 h-4" /> },
     { name: "Skills", href: "#skills", icon: <Brain className="w-4 h-4" /> },
     { name: "Projects", href: "#projects", icon: <Code className="w-4 h-4" /> },
     { name: "Contact", href: "#contact", icon: <Mail className="w-4 h-4" /> },
