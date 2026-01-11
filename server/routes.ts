@@ -3,24 +3,34 @@ import type { Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
+import { experience, certifications, projects, skills } from "@shared/schema";
+import { db } from "./db";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Projects
   app.get(api.projects.list.path, async (req, res) => {
     const projects = await storage.getProjects();
     res.json(projects);
   });
 
-  // Skills
   app.get(api.skills.list.path, async (req, res) => {
     const skills = await storage.getSkills();
     res.json(skills);
   });
 
-  // Contact
+  // Added routes for experience and certifications
+  app.get("/api/experience", async (req, res) => {
+    const exp = await storage.getExperience();
+    res.json(exp);
+  });
+
+  app.get("/api/certifications", async (req, res) => {
+    const certs = await storage.getCertifications();
+    res.json(certs);
+  });
+
   app.post(api.contact.submit.path, async (req, res) => {
     try {
       const input = api.contact.submit.input.parse(req.body);
@@ -37,7 +47,7 @@ export async function registerRoutes(
     }
   });
 
-  // Seed Data (if empty)
+  // Seed with Karan's Resume Data
   const existingProjects = await storage.getProjects();
   if (existingProjects.length === 0) {
     await seedDatabase();
@@ -49,66 +59,84 @@ export async function registerRoutes(
 async function seedDatabase() {
   const projectsData = [
     {
-      title: "RAG Document Chatbot",
-      description: "A retrieval-augmented generation system allowing users to chat with their PDF documents using OpenAI and LangChain.",
-      techStack: ["Python", "LangChain", "OpenAI", "React", "Vector DB"],
-      repoUrl: "https://github.com/username/rag-chatbot",
-      demoUrl: "https://rag-demo.com",
+      title: "Cyber-Saarthi - Fine-Tuned Legal AI Chatbot",
+      description: "Fine-tuned TinyLlama-1.1B on custom Indian cyber law dataset with zero hallucinations.",
+      highlights: [
+        "Achieved 60.2% accuracy and 93% reduction in evaluation loss",
+        "Automated dataset generation with 10+ query variations per topic",
+        "Implemented conversation memory and streaming responses"
+      ],
+      techStack: ["Python", "Hugging Face", "PEFT", "QLoRA", "PyTorch", "Streamlit"],
+      repoUrl: "https://github.com/karanbaid",
+      demoUrl: "#",
+      imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
+    },
+    {
+      title: "News Analysis Crew",
+      description: "Multi-agent AI system for critical analysis of online news articles using CrewAI.",
+      highlights: [
+        "Developed custom Web Content Extractor agent using BeautifulSoup",
+        "Engineered AI Critical Thinking Partner for bias identification",
+        "Orchestrated sequential agent collaboration for in-depth reporting"
+      ],
+      techStack: ["Python", "CrewAI", "LangChain", "BeautifulSoup", "YAML"],
+      repoUrl: "https://github.com/karanbaid",
+      demoUrl: "#",
+      imageUrl: "https://images.unsplash.com/photo-1504711432869-efd597cdd042?w=800&q=80",
+    },
+    {
+      title: "Advanced RAG Chatbot",
+      description: "Hybrid retrieval system combining BM25 and vector semantic search with reranking.",
+      highlights: [
+        "Implemented multi-query generation and Cohere reranking",
+        "Built multi-format pipeline for PDFs, Word, images, and text",
+        "Session management with source citation tracking"
+      ],
+      techStack: ["Python", "LangChain", "ChromaDB", "Groq API", "Cohere"],
+      repoUrl: "https://github.com/karanbaid",
+      demoUrl: "#",
       imageUrl: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80",
-    },
-    {
-      title: "Stable Diffusion Art Gen",
-      description: "Custom interface for Stable Diffusion models with fine-tuned LoRAs for specific artistic styles.",
-      techStack: ["PyTorch", "Stable Diffusion", "Python", "Gradio"],
-      repoUrl: "https://github.com/username/sd-art",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
-    },
-    {
-      title: "CodeLlama Assistant",
-      description: "A coding assistant fine-tuned on specialized Python libraries to help with data science workflows.",
-      techStack: ["Llama 2", "Hugging Face", "Python", "Fine-tuning"],
-      repoUrl: "https://github.com/username/codellama-finetune",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80",
-    },
-    {
-      title: "Voice-to-Action Agent",
-      description: "An AI agent that converts voice commands into executable system actions using Whisper and GPT-4.",
-      techStack: ["Whisper API", "GPT-4", "Node.js", "WebSockets"],
-      repoUrl: "https://github.com/username/voice-agent",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1589254065878-42c9da9e2f58?w=800&q=80",
     }
   ];
 
   const skillsData = [
     { name: "Python", category: "Languages", proficiency: 95 },
-    { name: "TypeScript", category: "Languages", proficiency: 85 },
-    { name: "SQL", category: "Languages", proficiency: 80 },
-    
-    { name: "PyTorch", category: "AI / ML", proficiency: 90 },
-    { name: "TensorFlow", category: "AI / ML", proficiency: 75 },
-    { name: "LangChain", category: "AI / ML", proficiency: 95 },
-    { name: "Hugging Face", category: "AI / ML", proficiency: 85 },
-    { name: "OpenAI API", category: "AI / ML", proficiency: 95 },
-
-    { name: "React", category: "Frontend", proficiency: 85 },
-    { name: "Tailwind CSS", category: "Frontend", proficiency: 90 },
-    { name: "Next.js", category: "Frontend", proficiency: 80 },
-
-    { name: "Docker", category: "Tools", proficiency: 75 },
-    { name: "Git", category: "Tools", proficiency: 90 },
-    { name: "AWS", category: "Tools", proficiency: 70 },
+    { name: "C++", category: "Languages", proficiency: 85 },
+    { name: "Flask", category: "Frameworks", proficiency: 80 },
+    { name: "FastAPI", category: "Frameworks", proficiency: 85 },
+    { name: "CrewAI", category: "Frameworks", proficiency: 90 },
+    { name: "LangChain", category: "Frameworks", proficiency: 95 },
+    { name: "MLFlow", category: "MLOPS", proficiency: 75 },
+    { name: "Docker", category: "MLOPS", proficiency: 80 },
+    { name: "PostgreSQL", category: "Databases", proficiency: 85 },
+    { name: "Chroma", category: "Databases", proficiency: 90 },
+    { name: "PineCone", category: "Databases", proficiency: 85 },
   ];
 
-  for (const p of projectsData) {
-    await storage.createProject(p);
-  }
-  
-  for (const s of skillsData) {
-    await storage.createSkill(s);
-  }
-  
-  console.log("Database seeded successfully!");
+  const experienceData = [
+    {
+      company: "Netgraph Networking Pvt. Ltd.",
+      role: "Machine Learning Intern",
+      location: "On-site",
+      period: "October 2022 - Present",
+      description: [
+        "Built and deployed personalized recommendation system for financial products",
+        "Applied data preprocessing, model training, and evaluation pipelines",
+        "Collaborated with engineering team to align AI outputs with fintech product structures"
+      ]
+    }
+  ];
+
+  const certificationsData = [
+    { name: "Gen-AI Certification", issuer: "IBM", verificationUrl: "#" },
+    { name: "Python for Data Science and ML Bootcamp", issuer: "Jose Portilla", verificationUrl: "#" },
+    { name: "Generative AI course with Langchain and Huggingface", issuer: "Udemy", verificationUrl: "#" }
+  ];
+
+  for (const p of projectsData) await storage.createProject(p);
+  for (const s of skillsData) await storage.createSkill(s);
+  for (const e of experienceData) await storage.createExperience(e);
+  for (const c of certificationsData) await storage.createCertification(c);
+
+  console.log("Database seeded with Karan's resume data!");
 }
