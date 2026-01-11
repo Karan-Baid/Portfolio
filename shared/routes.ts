@@ -57,3 +57,6 @@ export function buildUrl(path: string, params?: Record<string, string | number>)
   }
   return url;
 }
+
+// Add type export for frontend consumption
+export type { InsertMessage } from './schema';

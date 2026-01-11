@@ -253,7 +253,7 @@ export default function Home() {
                   <p className="text-gray-400 text-sm">{cert.issuer}</p>
                 </div>
                 {cert.verificationUrl && (
-                  <Button variant="ghost" size="icon" onClick={() => window.open(cert.verificationUrl, '_blank')}>
+                  <Button variant="ghost" size="icon" onClick={() => window.open(cert.verificationUrl || "", '_blank')}>
                     <ExternalLink className="w-4 h-4" />
                   </Button>
                 )}

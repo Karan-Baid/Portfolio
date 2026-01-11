@@ -51,7 +51,12 @@ export const insertCertificationSchema = createInsertSchema(certifications).omit
 export const insertMessageSchema = createInsertSchema(messages).omit({ id: true, createdAt: true });
 
 export type Project = typeof projects.$inferSelect;
+export type InsertProject = z.infer<typeof insertProjectSchema>;
 export type Skill = typeof skills.$inferSelect;
+export type InsertSkill = z.infer<typeof insertSkillSchema>;
 export type Experience = typeof experience.$inferSelect;
+export type InsertExperience = z.infer<typeof insertExperienceSchema>;
 export type Certification = typeof certifications.$inferSelect;
+export type InsertCertification = z.infer<typeof insertCertificationSchema>;
 export type Message = typeof messages.$inferSelect;
+export type InsertMessage = z.infer<typeof insertMessageSchema>;
