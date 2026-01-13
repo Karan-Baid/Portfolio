@@ -80,31 +80,37 @@ export default function Home() {
               <span>Available for collaboration</span>
             </div>
             
-            <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="relative"
-              >
-                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-primary shadow-xl shadow-primary/20">
-                  <img 
-                    src="/assets/profile.jpg" 
-                    alt="Karan Baid" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-background rounded-full flex items-center justify-center border-2 border-primary">
-                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                </div>
-              </motion.div>
-              
-              <div className="text-center md:text-left">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12 mb-12">
+              <div className="text-center md:text-left order-2 md:order-1">
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
                   Karan Baid
                   <span className="text-gradient block mt-2">Aspiring AI Engineer</span>
                 </h1>
               </div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative order-1 md:order-2"
+              >
+                <div className="w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden border-4 border-primary shadow-2xl shadow-primary/20 relative z-10 group">
+                  <img 
+                    src="/assets/profile.jpg" 
+                    alt="Karan Baid" 
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors" />
+                </div>
+                
+                {/* Decorative frames */}
+                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-primary/30 rounded-2xl -z-0" />
+                <div className="absolute -bottom-4 -left-4 w-full h-full border-2 border-purple-500/20 rounded-2xl -z-0" />
+                
+                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-background rounded-full flex items-center justify-center border-2 border-primary z-20">
+                  <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse" />
+                </div>
+              </motion.div>
             </div>
 
             <div className="text-xl md:text-2xl text-gray-400 mb-8 font-mono h-[60px] md:h-auto">
