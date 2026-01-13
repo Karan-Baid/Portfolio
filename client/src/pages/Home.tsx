@@ -36,15 +36,15 @@ export default function Home() {
     sendMessage(data, {
       onSuccess: () => {
         toast({
-          title: "Message sent!",
-          description: "Thanks for reaching out. I'll get back to you soon.",
+          title: "Transmission Received",
+          description: "Your message has been stored in my secure database. I'll get back to you soon!",
         });
         form.reset();
       },
       onError: (error) => {
         toast({
-          title: "Error",
-          description: error.message,
+          title: "Transmission Failed",
+          description: error.message || "There was a glitch in the matrix. Please try again.",
           variant: "destructive",
         });
       },

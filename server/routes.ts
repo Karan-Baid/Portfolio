@@ -80,7 +80,7 @@ async function seedDatabase() {
         "Streamlit",
       ],
       repoUrl: "https://github.com/Karan-Baid/Cyber-Saarthi",
-      demoUrl: "#",
+      demoUrl: "https://cyber-saarthi.streamlit.app/",
       imageUrl:
         "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
     },
@@ -178,17 +178,17 @@ async function seedDatabase() {
     {
       name: "Gen-AI Certification by IBM",
       issuer: "IBM",
-      verificationUrl: "#",
+      verificationUrl: "https://drive.google.com/file/d/1kRUpPkXTUpy0zrvKQCu1n4uE_PZo49gE/view?usp=drive_link",
     },
     {
       name: "Python for Data Science and Machine Learning Bootcamp",
-      issuer: "Jose Portilla",
-      verificationUrl: "#",
+      issuer: "Udemy-Jose Portilla",
+      verificationUrl: "https://drive.google.com/file/d/1oH-lWH4Emb3S3ikQK7KMWqhtX9GLyb5f/view?usp=drive_link",
     },
     {
       name: "Complete Generative AI course with Langchain and Huggingface",
-      issuer: "Udemy",
-      verificationUrl: "#",
+      issuer: "Udemy- Krish Naik",
+      verificationUrl: "https://drive.google.com/file/d/1oHdw_MlRqkGZ4G54gl_JOlPpOOX_rd4O/view?usp=drive_link",
     },
   ];
 
