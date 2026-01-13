@@ -48,15 +48,18 @@ export async function registerRoutes(
   });
 
   // Seed with Karan's Resume Data
-  const existingProjects = await storage.getProjects();
-  if (existingProjects.length === 0) {
-    await seedDatabase();
-  }
+  await seedDatabase();
 
   return httpServer;
 }
 
 async function seedDatabase() {
+  // Clear existing data to allow re-seeding with updates
+  await db.delete(projects);
+  await db.delete(skills);
+  await db.delete(experience);
+  await db.delete(certifications);
+
   const projectsData = [
     {
       title: "Cyber-Saarthi - Fine-Tuned Legal AI Chatbot",
@@ -68,8 +71,8 @@ async function seedDatabase() {
       ],
       techStack: ["Python", "Hugging Face Transformers", "PEFT", "QLoRA", "BitsAndBytes", "PyTorch", "Streamlit"],
       repoUrl: "https://github.com/karanbaid",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80",
+      demoUrl: "https://cyber-saarthi.streamlit.app/",
+      imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
     },
     {
       title: "News Analysis Crew",
@@ -81,8 +84,8 @@ async function seedDatabase() {
       ],
       techStack: ["Python", "CrewAI", "Pydantic", "BeautifulSoup", "YAML", "LangChain"],
       repoUrl: "https://github.com/karanbaid",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1504711432869-efd597cdd042?w=800&q=80",
+      demoUrl: "https://news-analysis-crew.replit.app/",
+      imageUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80",
     },
     {
       title: "RAG Chatbot",
@@ -94,8 +97,8 @@ async function seedDatabase() {
       ],
       techStack: ["Python", "LangChain", "Streamlit", "Groq API", "Cohere", "ChromaDB", "Unstructured"],
       repoUrl: "https://github.com/karanbaid",
-      demoUrl: "#",
-      imageUrl: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=800&q=80",
+      demoUrl: "https://rag-chatbot-demo.streamlit.app/",
+      imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
     }
   ];
 
