@@ -80,7 +80,7 @@ async function seedDatabase() {
         "Streamlit",
       ],
       repoUrl: "https://github.com/Karan-Baid/Cyber-Saarthi",
-      demoUrl: "https://cyber-saarthi.streamlit.app/",
+      demoUrl: "#",
       imageUrl:
         "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
     },
