@@ -31,7 +31,7 @@ export default function Navbar() {
           <div className="flex-shrink-0">
             <a href="#" className="text-xl font-mono font-bold text-white flex items-center gap-2">
               <span className="text-primary">&lt;</span>
-              Portfolio
+              Karan's portfolio
               <span className="text-primary">/&gt;</span>
             </a>
           </div>

@@ -101,7 +101,7 @@ async function seedDatabase() {
         "Streamlit",
       ],
       repoUrl: "https://github.com/Karan-Baid/Cyber-Saarthi",
-      demoUrl: "https://cyber-saarthi.streamlit.app/",
+      demoUrl: "#",
       imageUrl: "/assets/cyber-saarthi-cover.png",
     },
     {
