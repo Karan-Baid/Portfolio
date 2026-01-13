@@ -107,7 +107,7 @@ export default function Home() {
                   View Work <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </a>
-              <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-white/20 hover:bg-white/5" onClick={() => window.open('https://linkedin.com/in/karanbaid', '_blank')}>
+              <Button size="lg" variant="outline" className="rounded-full px-8 text-base h-12 border-white/20 hover:bg-white/5" onClick={() => window.open('https://www.linkedin.com/in/karan-baid-51253a251', '_blank')}>
                 LinkedIn <ExternalLink className="ml-2 w-4 h-4" />
               </Button>
             </div>
