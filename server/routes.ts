@@ -8,7 +8,7 @@ import { db } from "./db";
 
 export async function registerRoutes(
   httpServer: Server,
-  app: Express
+  app: Express,
 ): Promise<Server> {
   app.get(api.projects.list.path, async (req, res) => {
     const projects = await storage.getProjects();
@@ -40,7 +40,7 @@ export async function registerRoutes(
       if (err instanceof z.ZodError) {
         return res.status(400).json({
           message: err.errors[0].message,
-          field: err.errors[0].path.join('.'),
+          field: err.errors[0].path.join("."),
         });
       }
       throw err;
@@ -63,43 +63,72 @@ async function seedDatabase() {
   const projectsData = [
     {
       title: "Cyber-Saarthi - Fine-Tuned Legal AI Chatbot",
-      description: "Fine-tuned TinyLlama-1.1B using QLoRA on custom Indian cyber law dataset (544+ Q&A pairs), achieving 60.2% accuracy and 93% reduction in evaluation loss with 4-bit quantization.",
+      description:
+        "Fine-tuned TinyLlama-1.1B using QLoRA on custom Indian cyber law dataset (544+ Q&A pairs), achieving 60.2% accuracy and 93% reduction in evaluation loss with 4-bit quantization.",
       highlights: [
         "Built complete ML pipeline: automated dataset generation with 10+ query variations per topic",
         "Parameter-efficient fine-tuning with LoRA adapters and full-stack deployment",
-        "Implemented conversation memory, streaming responses, and achieved zero hallucinations on legal queries"
+        "Implemented conversation memory, streaming responses, and achieved zero hallucinations on legal queries",
       ],
-      techStack: ["Python", "Hugging Face Transformers", "PEFT", "QLoRA", "BitsAndBytes", "PyTorch", "Streamlit"],
-      repoUrl: "https://github.com/karanbaid",
+      techStack: [
+        "Python",
+        "Hugging Face Transformers",
+        "PEFT",
+        "QLoRA",
+        "BitsAndBytes",
+        "PyTorch",
+        "Streamlit",
+      ],
+      repoUrl: "https://github.com/Karan-Baid/Cyber-Saarthi",
       demoUrl: "https://cyber-saarthi.streamlit.app/",
-      imageUrl: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
+      imageUrl:
+        "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
     },
     {
       title: "News Analysis Crew",
-      description: "Engineered a multi-agent AI system using the CrewAI framework to automate the critical analysis of online news articles, simulating a professional research workflow.",
+      description:
+        "Engineered a multi-agent AI system using the CrewAI framework to automate the critical analysis of online news articles, simulating a professional research workflow.",
       highlights: [
         "Developed specialized Web Content Extractor agent with custom Python tool using BeautifulSoup",
         "Designed AI Critical Thinking Partner agent for nuanced analysis including bias identification",
-        "Orchestrated agent collaboration in sequential process for in-depth reporting and output generation"
+        "Orchestrated agent collaboration in sequential process for in-depth reporting and output generation",
       ],
-      techStack: ["Python", "CrewAI", "Pydantic", "BeautifulSoup", "YAML", "LangChain"],
-      repoUrl: "https://github.com/karanbaid",
-      demoUrl: "https://news-analysis-crew.replit.app/",
-      imageUrl: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80",
+      techStack: [
+        "Python",
+        "CrewAI",
+        "Pydantic",
+        "BeautifulSoup",
+        "YAML",
+        "LangChain",
+      ],
+      repoUrl: "https://github.com/Karan-Baid/Patrakaarita",
+      demoUrl: "https://patrakaarita.streamlit.app/",
+      imageUrl:
+        "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80",
     },
     {
       title: "RAG Chatbot",
-      description: "Developed an advanced RAG system implementing hybrid retrieval combining BM25 and vector semantic search, enhanced with multi-query generation and Cohere reranking for superior document retrieval accuracy.",
+      description:
+        "Developed an advanced RAG system implementing hybrid retrieval combining BM25 and vector semantic search, enhanced with multi-query generation and Cohere reranking for superior document retrieval accuracy.",
       highlights: [
         "Engineered multi-format document processing pipeline leveraging Unstructured library",
         "Built production-ready conversational interface with Reciprocal Rank Fusion",
-        "Persistent vector storage, session management, and source citation tracking for context-aware multi-turn conversations"
+        "Persistent vector storage, session management, and source citation tracking for context-aware multi-turn conversations",
       ],
-      techStack: ["Python", "LangChain", "Streamlit", "Groq API", "Cohere", "ChromaDB", "Unstructured"],
-      repoUrl: "https://github.com/karanbaid",
-      demoUrl: "https://rag-chatbot-demo.streamlit.app/",
-      imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-    }
+      techStack: [
+        "Python",
+        "LangChain",
+        "Streamlit",
+        "Groq API",
+        "Cohere",
+        "ChromaDB",
+        "Unstructured",
+      ],
+      repoUrl: "https://github.com/Karan-Baid/Advanced_rag",
+      demoUrl: "https://advancedrag.streamlit.app/",
+      imageUrl:
+        "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+    },
   ];
 
   const skillsData = [
@@ -140,15 +169,27 @@ async function seedDatabase() {
         "Applied core machine learning concepts including data preprocessing, model training, and evaluation",
         "Gained exposure to advanced AI/ML techniques and developed insights into fintech-specific use cases and data challenges",
         "Collaborated with engineering team to align AI outputs with real-world fintech product structures",
-        "Gained hands-on experience in domain-driven ML solutioning, handling real user engagement data"
-      ]
-    }
+        "Gained hands-on experience in domain-driven ML solutioning, handling real user engagement data",
+      ],
+    },
   ];
 
   const certificationsData = [
-    { name: "Gen-AI Certification by IBM", issuer: "IBM", verificationUrl: "#" },
-    { name: "Python for Data Science and Machine Learning Bootcamp", issuer: "Jose Portilla", verificationUrl: "#" },
-    { name: "Complete Generative AI course with Langchain and Huggingface", issuer: "Udemy", verificationUrl: "#" }
+    {
+      name: "Gen-AI Certification by IBM",
+      issuer: "IBM",
+      verificationUrl: "#",
+    },
+    {
+      name: "Python for Data Science and Machine Learning Bootcamp",
+      issuer: "Jose Portilla",
+      verificationUrl: "#",
+    },
+    {
+      name: "Complete Generative AI course with Langchain and Huggingface",
+      issuer: "Udemy",
+      verificationUrl: "#",
+    },
   ];
 
   for (const p of projectsData) await storage.createProject(p);
