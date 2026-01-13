@@ -80,10 +80,32 @@ export default function Home() {
               <span>Available for collaboration</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-              Karan Baid
-              <span className="text-gradient block mt-2">Aspiring AI Engineer</span>
-            </h1>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-6">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+                className="relative"
+              >
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-primary shadow-xl shadow-primary/20">
+                  <img 
+                    src="/assets/profile.jpg" 
+                    alt="Karan Baid" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-background rounded-full flex items-center justify-center border-2 border-primary">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                </div>
+              </motion.div>
+              
+              <div className="text-center md:text-left">
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+                  Karan Baid
+                  <span className="text-gradient block mt-2">Aspiring AI Engineer</span>
+                </h1>
+              </div>
+            </div>
 
             <div className="text-xl md:text-2xl text-gray-400 mb-8 font-mono h-[60px] md:h-auto">
               <TypeAnimation
