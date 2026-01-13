@@ -145,7 +145,7 @@ async function seedDatabase() {
       ],
       repoUrl: "https://github.com/Karan-Baid/Advanced_rag",
       demoUrl: "https://advancedrag.streamlit.app/",
-      imageUrl: "/assets/rag-cover.png",
+      imageUrl: "/assets/rag-cover-v2.png",
     },
   ];
 
