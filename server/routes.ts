@@ -102,8 +102,7 @@ async function seedDatabase() {
       ],
       repoUrl: "https://github.com/Karan-Baid/Cyber-Saarthi",
       demoUrl: "https://cyber-saarthi.streamlit.app/",
-      imageUrl:
-        "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80",
+      imageUrl: "/assets/cyber-saarthi-cover.png",
     },
     {
       title: "News Analysis Crew",
