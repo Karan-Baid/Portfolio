@@ -124,8 +124,7 @@ async function seedDatabase() {
       ],
       repoUrl: "https://github.com/Karan-Baid/Patrakaarita",
       demoUrl: "https://patrakaarita.streamlit.app/",
-      imageUrl:
-        "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=80",
+      imageUrl: "/assets/patrakaarita-cover.png",
     },
     {
       title: "RAG Chatbot",
