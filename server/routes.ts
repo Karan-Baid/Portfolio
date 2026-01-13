@@ -5,6 +5,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { experience, certifications, projects, skills } from "@shared/schema";
 import { db } from "./db";
+import { sendEmail } from "../client/src/utils/replitmail";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -35,6 +36,26 @@ export async function registerRoutes(
     try {
       const input = api.contact.submit.input.parse(req.body);
       await storage.createMessage(input);
+      
+      // Send email notification to the user
+      try {
+        await sendEmail({
+          subject: `New Portfolio Message from ${input.name}`,
+          text: `
+            You have received a new message from your portfolio website.
+            
+            Name: ${input.name}
+            Email: ${input.email}
+            
+            Message:
+            ${input.message}
+          `,
+        });
+      } catch (emailErr) {
+        console.error("Failed to send email notification:", emailErr);
+        // We don't fail the request if email fails, as it's stored in DB
+      }
+
       res.status(201).json({ success: true });
     } catch (err) {
       if (err instanceof z.ZodError) {
