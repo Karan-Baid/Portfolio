@@ -82,7 +82,7 @@ export default function Home() {
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
               Karan Baid
-              <span className="text-gradient block mt-2">Generative AI Engineer</span>
+              <span className="text-gradient block mt-2">Aspiring AI Engineer</span>
             </h1>
 
             <div className="text-xl md:text-2xl text-gray-400 mb-8 font-mono h-[60px] md:h-auto">
