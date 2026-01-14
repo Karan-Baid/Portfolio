@@ -94,21 +94,12 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="relative order-1 md:order-2"
               >
-                <div className="w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden border-4 border-primary shadow-2xl shadow-primary/20 relative z-10 group">
+                <div className="w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden border-2 border-primary/20 shadow-xl relative z-10">
                   <img 
                     src="/assets/profile.jpg" 
                     alt="Karan Baid" 
-                    className="w-full h-full object-cover transition-all duration-500 transform group-hover:scale-110"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors" />
-                </div>
-                
-                {/* Decorative frames */}
-                <div className="absolute -top-4 -right-4 w-full h-full border-2 border-primary/30 rounded-2xl -z-0" />
-                <div className="absolute -bottom-4 -left-4 w-full h-full border-2 border-purple-500/20 rounded-2xl -z-0" />
-                
-                <div className="absolute -bottom-2 -right-2 w-10 h-10 bg-background rounded-full flex items-center justify-center border-2 border-primary z-20">
-                  <div className="w-4 h-4 bg-green-500 rounded-full animate-pulse" />
                 </div>
               </motion.div>
             </div>
