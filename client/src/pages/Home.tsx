@@ -98,7 +98,7 @@ export default function Home() {
                   <img 
                     src="/assets/profile.jpg" 
                     alt="Karan Baid" 
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 transform group-hover:scale-110"
+                    className="w-full h-full object-cover transition-all duration-500 transform group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors" />
                 </div>
